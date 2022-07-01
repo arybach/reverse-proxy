@@ -1,5 +1,4 @@
-reverse-proxy
-Nginx-apache reverse proxy load balancer
+# Nginx-apache reverse proxy load balancer
 for installation on Centos 7/8
 install docker
 > yum install -y yum-utils
