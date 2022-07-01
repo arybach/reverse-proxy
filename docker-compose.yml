@@ -1,0 +1,83 @@
+version: "3"
+
+services:
+
+  # Proxies requests to internal services
+  nginx_rp:
+    build:
+      context: .
+      dockerfile: Dockerfile.nginx
+    container_name: nginx_rp
+    depends_on:
+      - apache80
+      - apache81
+      - apache82
+    volumes:
+      - ./var/log/nginx:/var/log/nginx
+      - ./nginx:/etc/nginx
+      - ./var/www/html:/var/www/html
+    ports:
+      - 80:80
+    links:
+      - php_apache
+    networks:
+      - mynet
+
+  php_apache:
+    build:
+      context: .
+      dockerfile: Dockerfile.php
+    container_name: php_apache
+    volumes:
+    # path on the right should be exactly == to root path in nginx.conf
+    - ./php:/var/www/html
+    ports:
+      - 127.0.0.1:9000:9000
+    networks:
+      - mynet
+
+  apache80:
+    build:
+      context: .
+      dockerfile: Dockerfile.apache80
+    container_name: apache80
+    volumes:
+      - ./var/log/apache80:/var/log/httpd
+    ports:
+      - 127.0.0.1:8080:8080
+    links:
+      - php_apache
+    networks:
+      - mynet
+
+  apache81:
+    build:
+      context: .
+      dockerfile: Dockerfile.apache81
+    container_name: apache81
+    volumes:
+      - ./var/log/apache81:/var/log/httpd
+    ports:
+      - 127.0.0.1:8081:8081
+    links:
+      - php_apache
+    networks:
+      - mynet
+
+  apache82:
+    build:
+      context: .
+      dockerfile: Dockerfile.apache82
+    container_name: apache82
+    volumes:
+      - ./var/log/apache81:/var/log/httpd
+    ports:
+      - 127.0.0.1:8082:8082
+    links:
+      - php_apache
+    networks:
+      - mynet
+
+networks:
+  mynet:
+    driver: bridge
