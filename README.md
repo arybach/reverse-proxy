@@ -1,22 +1,22 @@
-# reverse-proxy
-# Nginx-apache reverse proxy load balancer
-# for installation on Centos 7/8
-# install docker
-yum install -y yum-utils
-yum-config-manager \
+reverse-proxy
+Nginx-apache reverse proxy load balancer
+for installation on Centos 7/8
+install docker
+> yum install -y yum-utils
+> yum-config-manager \
     --add-repo \
     https://download.docker.com/linux/centos/docker-ce.repo
     
-yum install docker-ce docker-ce-cli containerd.io
-systemctl start docker
-systemctl stop firewalld
+> yum install docker-ce docker-ce-cli containerd.io
+> systemctl start docker
+> systemctl stop firewalld
 
-# clone reverse-proxy master to /etc/apache directory
-# add /var/log + subdirectories
-# from apache directory
-docker-compose up --build
+clone reverse-proxy master to /etc/apache directory
+add /var/log + subdirectories
+from apache directory
+> docker-compose up --build
 
-# tree of apache directory
+tree of apache directory
 ├── apache80
 │   ├── httpd.conf
 │   └── index.html
